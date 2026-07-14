@@ -1,182 +1,183 @@
-// Centerpiece — Shopic Vision, reframed.
+// Centerpiece — the Vision hub, rebuilt to match Shopic's actual hero.
 //
-// Shopic's signature motif is item-level recognition: a live camera feed with
-// bounding boxes and confidence scores drawn over every product in the cart
-// ("Shopic Vision sees it all through item level recognition"). This rebuilds
-// that overlay from scratch as an inline SVG, but the boxes detect *my stack*
-// instead of groceries — full-stack, AI/agents, MCP tooling, DevOps — each with
-// a mono HUD label and a confidence score. A scan line sweeps the frame.
+// Shopic's hero is a hub-and-spoke diagram: a glowing violet crystalline
+// "Shopic Vision" orb at the center with dashed connectors radiating to four
+// capability nodes (Smart Cart, Expedite Checkout, Smart SCO, Stock
+// Availability), each a label + one-liner. This rebuilds that composition from
+// scratch, but the nodes are *my* capabilities — the four things I'd bring to
+// the team building Shopic Vision. Sparks flow along the connectors; the rings
+// rotate and the halo pulses.
 //
-// Decorative, so aria-hidden; the real message lives in the copy. Coordinates
-// are integer/2dp literals so server and client strings match (no hydration
-// mismatch). Motion is CSS-driven and reduced-motion safe (see shopic.css).
+// Decorative, so aria-hidden; the real message is in the copy. Coordinates are
+// rounded to 2dp so server and client strings match (no hydration mismatch).
+// Motion is CSS-driven and reduced-motion safe (see shopic.css).
 
-type Box = {
+const CX = 240;
+const CY = 190;
+const r2 = (n: number) => Math.round(n * 100) / 100;
+
+type Node = {
   x: number;
   y: number;
-  w: number;
-  h: number;
+  side: "left" | "right";
   label: string;
-  conf: string;
+  sub: string;
   cls: string;
+  spark: string;
   color: string;
 };
 
-const L = 13; // corner-bracket arm length
-
-const BOXES: Box[] = [
-  { x: 38, y: 78, w: 156, h: 92, label: "FULL-STACK", conf: "0.98", cls: "b1", color: "var(--shopic-accent-2)" },
-  { x: 236, y: 66, w: 150, h: 74, label: "AI · AGENTS", conf: "0.96", cls: "b2", color: "var(--shopic-green)" },
-  { x: 54, y: 206, w: 150, h: 82, label: "MCP TOOLING", conf: "0.94", cls: "b3", color: "var(--shopic-accent-2)" },
-  { x: 244, y: 190, w: 142, h: 100, label: "DEVOPS · CI/CD", conf: "0.92", cls: "b4", color: "var(--shopic-green)" },
+const NODES: Node[] = [
+  { x: 132, y: 96, side: "left", label: "Full-Stack", sub: "React · Next · Node", cls: "n1", spark: "", color: "var(--shopic-accent-2)" },
+  { x: 348, y: 96, side: "right", label: "AI & Agents", sub: "LLM apps · MCP · evals", cls: "n2", spark: "s2", color: "var(--shopic-green)" },
+  { x: 132, y: 284, side: "left", label: "MCP Tooling", sub: "servers · plugins", cls: "n3", spark: "s3", color: "var(--shopic-accent-2)" },
+  { x: 348, y: 284, side: "right", label: "DevOps · Cloud", sub: "Docker · K8s · CI/CD", cls: "n4", spark: "s4", color: "var(--shopic-green)" },
 ];
 
-function DetectionBox({ x, y, w, h, label, conf, cls, color }: Box) {
-  const brackets = [
-    `M${x} ${y + L} L${x} ${y} L${x + L} ${y}`,
-    `M${x + w - L} ${y} L${x + w} ${y} L${x + w} ${y + L}`,
-    `M${x} ${y + h - L} L${x} ${y + h} L${x + L} ${y + h}`,
-    `M${x + w - L} ${y + h} L${x + w} ${y + h} L${x + w} ${y + h - L}`,
-  ];
-  const tabW = label.length * 6.4 + 40;
-  return (
-    <g className={`box ${cls}`}>
-      <rect
-        x={x}
-        y={y}
-        width={w}
-        height={h}
-        rx="4"
-        fill={color}
-        fillOpacity="0.06"
-        stroke={color}
-        strokeOpacity="0.35"
-        strokeDasharray="4 5"
-      />
-      {brackets.map((d, i) => (
-        <path
-          key={i}
-          d={d}
-          fill="none"
-          stroke={color}
-          strokeWidth="2.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      ))}
-      <rect x={x} y={y - 18} width={tabW} height="17" rx="3" fill={color} />
-      <text
-        x={x + 7}
-        y={y - 5.5}
-        className="shopic-mono"
-        fontSize="9.5"
-        fontWeight="600"
-        fill="#160a2b"
-      >
-        {label} {conf}
-      </text>
-    </g>
-  );
+// Connector start point: 60px out from the orb center toward each node.
+function connectorStart(nx: number, ny: number) {
+  const dx = nx - CX;
+  const dy = ny - CY;
+  const len = Math.hypot(dx, dy);
+  return { x: r2(CX + (dx / len) * 60), y: r2(CY + (dy / len) * 60) };
 }
 
 export function Centerpiece() {
   return (
     <svg
       className="shopic-vision"
-      viewBox="0 0 424 340"
+      viewBox="0 0 480 380"
       role="img"
       aria-hidden="true"
     >
       <defs>
-        <linearGradient id="feed" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor="#26123f" />
-          <stop offset="1" stopColor="#190a2e" />
-        </linearGradient>
-        <linearGradient id="scanline" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor="var(--shopic-accent-2)" stopOpacity="0" />
-          <stop offset="1" stopColor="var(--shopic-accent-2)" stopOpacity="0.55" />
-        </linearGradient>
+        <radialGradient id="orbHalo" cx="50%" cy="50%" r="50%">
+          <stop offset="0" stopColor="#7d6bf0" stopOpacity="0.7" />
+          <stop offset="55%" stopColor="#5a3fd0" stopOpacity="0.25" />
+          <stop offset="100%" stopColor="#5a3fd0" stopOpacity="0" />
+        </radialGradient>
+        <radialGradient id="orbGem" cx="42%" cy="38%" r="62%">
+          <stop offset="0" stopColor="#d9cfff" />
+          <stop offset="42%" stopColor="#8b74f0" />
+          <stop offset="100%" stopColor="#3a1e7a" />
+        </radialGradient>
       </defs>
 
-      {/* camera-feed frame */}
-      <rect
-        x="4"
-        y="4"
-        width="416"
-        height="332"
-        rx="18"
-        fill="url(#feed)"
-        stroke="var(--shopic-border-strong)"
-        strokeWidth="1.5"
+      {/* connectors + sparks */}
+      {NODES.map((n) => {
+        const s = connectorStart(n.x, n.y);
+        return (
+          <g key={`c-${n.cls}`}>
+            <line
+              x1={s.x}
+              y1={s.y}
+              x2={n.x}
+              y2={n.y}
+              stroke="var(--shopic-accent-2)"
+              strokeOpacity="0.28"
+              strokeWidth="1.5"
+            />
+            <line
+              className={`spark ${n.spark}`}
+              x1={s.x}
+              y1={s.y}
+              x2={n.x}
+              y2={n.y}
+              stroke={n.color}
+              strokeWidth="2"
+              strokeLinecap="round"
+            />
+          </g>
+        );
+      })}
+
+      {/* the glowing orb */}
+      <circle className="halo" cx={CX} cy={CY} r="74" fill="url(#orbHalo)" />
+      <circle
+        className="ring ring-1"
+        cx={CX}
+        cy={CY}
+        r="58"
+        fill="none"
+        stroke="var(--shopic-accent-2)"
+        strokeOpacity="0.85"
+        strokeWidth="2"
+        strokeDasharray="46 16"
+        strokeLinecap="round"
       />
-
-      {/* faint scan grid */}
-      <g stroke="var(--shopic-accent-2)" strokeOpacity="0.07" strokeWidth="1">
-        <line x1="4" y1="90" x2="420" y2="90" />
-        <line x1="4" y1="176" x2="420" y2="176" />
-        <line x1="4" y1="262" x2="420" y2="262" />
-        <line x1="110" y1="4" x2="110" y2="336" />
-        <line x1="212" y1="4" x2="212" y2="336" />
-        <line x1="314" y1="4" x2="314" y2="336" />
+      <circle
+        className="ring ring-2"
+        cx={CX}
+        cy={CY}
+        r="49"
+        fill="none"
+        stroke="#ffffff"
+        strokeOpacity="0.45"
+        strokeWidth="1.5"
+        strokeDasharray="4 12"
+      />
+      <circle cx={CX} cy={CY} r="41" fill="url(#orbGem)" />
+      {/* crystalline facets */}
+      <g stroke="#ffffff" strokeOpacity="0.28" strokeWidth="1" fill="none">
+        <path d={`M${CX} ${CY - 41} L${CX - 22} ${CY + 8} L${CX} ${CY + 41} L${CX + 22} ${CY + 8} Z`} />
+        <path d={`M${CX - 41} ${CY} L${CX} ${CY + 8} L${CX + 41} ${CY}`} />
       </g>
-
-      {/* top HUD bar */}
       <text
-        x="22"
-        y="34"
-        className="shopic-mono"
-        fontSize="11"
+        className="core-label"
+        x={CX}
+        y={CY - 2}
+        textAnchor="middle"
+        fill="#ffffff"
+        fontSize="16"
         fontWeight="600"
-        letterSpacing="1.5"
-        fill="var(--shopic-ink-soft)"
+        letterSpacing="0.5"
       >
-        SHOPIC · VISION
+        Vision
       </text>
-      <g className="blip">
-        <circle cx="360" cy="30" r="4" fill="var(--shopic-green)" />
-      </g>
       <text
-        x="370"
-        y="34"
+        x={CX}
+        y={CY + 16}
+        textAnchor="middle"
         className="shopic-mono"
-        fontSize="11"
-        fontWeight="600"
-        letterSpacing="1.5"
-        fill="var(--shopic-green)"
+        fill="#e7e0ff"
+        fillOpacity="0.85"
+        fontSize="8.5"
+        letterSpacing="2"
       >
-        LIVE
+        BY BAR
       </text>
 
-      {/* sweeping scan line */}
-      <g className="scan">
-        <rect x="10" y="52" width="404" height="26" fill="url(#scanline)" opacity="0.5" />
-        <line
-          x1="10"
-          y1="78"
-          x2="414"
-          y2="78"
-          stroke="var(--shopic-accent-2)"
-          strokeWidth="1.5"
-          strokeOpacity="0.9"
-        />
-      </g>
-
-      {/* detection boxes */}
-      {BOXES.map((b) => (
-        <DetectionBox key={b.cls} {...b} />
-      ))}
-
-      {/* bottom HUD readout */}
-      <text
-        x="22"
-        y="322"
-        className="shopic-mono"
-        fontSize="10"
-        letterSpacing="1"
-        fill="var(--shopic-ink-faint)"
-      >
-        4 ITEMS RECOGNIZED · idea → deploy
-      </text>
+      {/* capability nodes */}
+      {NODES.map((n) => {
+        const anchor = n.side === "left" ? "end" : "start";
+        const tx = n.side === "left" ? n.x - 16 : n.x + 16;
+        return (
+          <g className={`node ${n.cls}`} key={n.cls}>
+            <circle cx={n.x} cy={n.y} r="10" fill={n.color} fillOpacity="0.16" />
+            <circle cx={n.x} cy={n.y} r="4.5" fill={n.color} />
+            <text
+              x={tx}
+              y={n.y - 2}
+              textAnchor={anchor}
+              fill="#ffffff"
+              fontSize="13.5"
+              fontWeight="600"
+            >
+              {n.label}
+            </text>
+            <text
+              x={tx}
+              y={n.y + 13}
+              textAnchor={anchor}
+              className="shopic-mono"
+              fill="var(--shopic-ink-soft)"
+              fontSize="9"
+            >
+              {n.sub}
+            </text>
+          </g>
+        );
+      })}
     </svg>
   );
 }

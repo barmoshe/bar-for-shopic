@@ -118,20 +118,43 @@
   padding-block: clamp(3.25rem, 8vw, 6rem);
 }
 .shopic-band {
+  position: relative;
   background: var(--shopic-bg-2);
   border-block: 1px solid var(--shopic-border);
+  overflow: hidden;
 }
+/* Results-style solid violet band with white text (Shopic's "Results" section) */
+.shopic-band-violet {
+  position: relative;
+  background:
+    radial-gradient(90% 120% at 50% -20%, #8272f2, transparent 60%),
+    var(--shopic-accent);
+  color: #fff;
+  overflow: hidden;
+}
+.shopic-band-violet .shopic-lead {
+  color: rgba(255, 255, 255, 0.82);
+}
+
+/* Eyebrow = Shopic's translucent pill with a small green dot */
 .shopic-eyebrow {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  font-family: var(--shopic-mono), ui-monospace, monospace;
-  text-transform: uppercase;
-  letter-spacing: 0.14em;
-  font-size: 0.72rem;
-  font-weight: 500;
+  padding: 0.4rem 0.9rem 0.4rem 0.75rem;
+  border-radius: var(--shopic-pill);
+  background: rgba(147, 130, 255, 0.14);
+  border: 1px solid var(--shopic-border);
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
   color: var(--shopic-accent-2);
-  margin-bottom: 0.9rem;
+  margin-bottom: 1.1rem;
+}
+.shopic-band-violet .shopic-eyebrow {
+  background: rgba(255, 255, 255, 0.16);
+  border-color: rgba(255, 255, 255, 0.28);
+  color: #fff;
 }
 .shopic-eyebrow::before {
   content: "";
@@ -139,7 +162,7 @@
   block-size: 0.5rem;
   border-radius: 999px;
   background: var(--shopic-green);
-  box-shadow: 0 0 0 3px rgba(16, 192, 83, 0.22);
+  box-shadow: 0 0 0 3px rgba(16, 192, 83, 0.28);
 }
 .shopic-h2 {
   font-size: clamp(1.7rem, 4vw, 2.6rem);
@@ -370,79 +393,216 @@
   border-radius: 8px;
 }
 
-/* --- centerpiece detection overlay --- */
+/* --- eclipse / radial glow (Shopic's ellipse motif) --- */
+.shopic-glow {
+  position: absolute;
+  z-index: 0;
+  pointer-events: none;
+  border-radius: 50%;
+  filter: blur(48px);
+  opacity: 0.5;
+}
+.shopic-glow-a {
+  inline-size: 34rem;
+  block-size: 34rem;
+  background: radial-gradient(circle, rgba(112, 92, 234, 0.55), transparent 68%);
+}
+.shopic-glow-b {
+  inline-size: 26rem;
+  block-size: 26rem;
+  background: radial-gradient(circle, rgba(16, 192, 83, 0.28), transparent 70%);
+}
+.shopic-wrap,
+.shopic-band > .shopic-wrap,
+.shopic-band-violet > .shopic-wrap {
+  position: relative;
+  z-index: 1;
+}
+
+/* --- Innovation-style feature list (line-icon + purple underline) --- */
+.shopic-features {
+  display: grid;
+  gap: 1.75rem 2.75rem;
+  grid-template-columns: 1fr;
+  margin-top: 0.5rem;
+}
+@media (min-width: 720px) {
+  .shopic-features {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+.shopic-feature {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 1rem;
+  align-items: start;
+}
+.shopic-feature .fi {
+  inline-size: 2.75rem;
+  block-size: 2.75rem;
+  flex: none;
+  display: grid;
+  place-items: center;
+  border-radius: 12px;
+  background: rgba(147, 130, 255, 0.12);
+  border: 1px solid var(--shopic-border);
+  color: var(--shopic-accent-2);
+}
+.shopic-feature h3 {
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin-bottom: 0.35rem;
+}
+.shopic-feature h3::after {
+  content: "";
+  display: block;
+  inline-size: 2.2rem;
+  block-size: 2px;
+  margin-top: 0.5rem;
+  border-radius: 2px;
+  background: var(--shopic-accent);
+}
+.shopic-feature p {
+  color: var(--shopic-ink-soft);
+  font-size: 0.94rem;
+}
+
+/* --- white stat cards on the violet Results band --- */
+.shopic-statgrid {
+  display: grid;
+  gap: 1.1rem;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  margin-top: 0.5rem;
+}
+.shopic-statcard {
+  background: #fff;
+  border-radius: 20px;
+  padding: 1.6rem 1.5rem 1.5rem;
+  box-shadow: 0 24px 48px -24px rgba(20, 6, 40, 0.5);
+  color: #1a0930;
+}
+.shopic-statcard .sc-top {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 1rem;
+}
+.shopic-statcard .sc-pill {
+  font-family: var(--shopic-mono), ui-monospace, monospace;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.28rem 0.6rem;
+  border-radius: 999px;
+  background: rgba(16, 192, 83, 0.14);
+  color: #0c9142;
+}
+.shopic-statcard b {
+  display: block;
+  font-size: clamp(1.7rem, 4vw, 2.3rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  color: #10c053;
+}
+.shopic-statcard b.v {
+  color: var(--shopic-accent);
+}
+.shopic-statcard h3 {
+  font-size: 1.02rem;
+  font-weight: 700;
+  margin: 0.9rem 0 0.3rem;
+}
+.shopic-statcard p {
+  color: #5b5468;
+  font-size: 0.9rem;
+}
+/* mini progress bar viz */
+.shopic-bar {
+  height: 8px;
+  border-radius: 999px;
+  background: #ece9f6;
+  overflow: hidden;
+  margin-top: 0.3rem;
+}
+.shopic-bar > i {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--shopic-accent), var(--shopic-green));
+}
+
+/* --- centerpiece: the Vision hub-and-spoke orb --- */
 .shopic-vision {
   width: 100%;
   height: auto;
-  filter: drop-shadow(0 30px 60px rgba(20, 6, 40, 0.6));
+  filter: drop-shadow(0 30px 70px rgba(20, 6, 40, 0.55));
 }
-.shopic-vision .scan {
-  animation: shopic-scan 3.6s ease-in-out infinite;
+.shopic-vision .ring {
+  transform-box: fill-box;
+  transform-origin: center;
 }
-.shopic-vision .box {
+.shopic-vision .ring-1 {
+  animation: shopic-spin 14s linear infinite;
+}
+.shopic-vision .ring-2 {
+  animation: shopic-spin 22s linear infinite reverse;
+}
+.shopic-vision .halo {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: shopic-pulse 3.8s ease-in-out infinite;
+}
+.shopic-vision .node {
   transform-box: fill-box;
   transform-origin: center;
   opacity: 0;
-  animation: shopic-pop 4.2s ease-in-out infinite;
+  animation: shopic-node-in 0.6s ease forwards;
 }
-.shopic-vision .box.b2 {
-  animation-delay: 0.5s;
+.shopic-vision .node.n1 { animation-delay: 0.15s; }
+.shopic-vision .node.n2 { animation-delay: 0.35s; }
+.shopic-vision .node.n3 { animation-delay: 0.55s; }
+.shopic-vision .node.n4 { animation-delay: 0.75s; }
+.shopic-vision .spark {
+  stroke-dasharray: 3 9;
+  animation: shopic-flow 1.6s linear infinite;
 }
-.shopic-vision .box.b3 {
-  animation-delay: 1s;
-}
-.shopic-vision .box.b4 {
-  animation-delay: 1.5s;
-}
-.shopic-vision .blip {
-  animation: shopic-blip 2s ease-in-out infinite;
-}
+.shopic-vision .spark.s2 { animation-delay: 0.4s; }
+.shopic-vision .spark.s3 { animation-delay: 0.8s; }
+.shopic-vision .spark.s4 { animation-delay: 1.2s; }
+.shopic-vision .core-label { animation: shopic-blip 3.8s ease-in-out infinite; }
 
-@keyframes shopic-scan {
-  0%,
-  100% {
-    transform: translateY(0);
-    opacity: 0.9;
-  }
-  50% {
-    transform: translateY(214px);
-    opacity: 0.35;
-  }
+@keyframes shopic-spin {
+  to { transform: rotate(360deg); }
 }
-@keyframes shopic-pop {
-  0%,
-  8% {
-    opacity: 0;
-    transform: scale(0.9);
-  }
-  16%,
-  82% {
-    opacity: 1;
-    transform: scale(1);
-  }
-  92%,
-  100% {
-    opacity: 0;
-    transform: scale(0.96);
-  }
+@keyframes shopic-pulse {
+  0%, 100% { transform: scale(1); opacity: 0.55; }
+  50% { transform: scale(1.06); opacity: 0.8; }
+}
+@keyframes shopic-node-in {
+  from { opacity: 0; transform: scale(0.86); }
+  to { opacity: 1; transform: scale(1); }
+}
+@keyframes shopic-flow {
+  to { stroke-dashoffset: -24; }
 }
 @keyframes shopic-blip {
-  0%,
-  100% {
-    opacity: 0.35;
-  }
-  50% {
-    opacity: 1;
-  }
+  0%, 100% { opacity: 0.72; }
+  50% { opacity: 1; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .shopic-vision .scan,
-  .shopic-vision .box,
-  .shopic-vision .blip {
+  .shopic-vision .ring-1,
+  .shopic-vision .ring-2,
+  .shopic-vision .halo,
+  .shopic-vision .node,
+  .shopic-vision .spark,
+  .shopic-vision .core-label {
     animation: none;
   }
-  .shopic-vision .box {
+  .shopic-vision .node {
     opacity: 1;
   }
   .shopic-btn:hover,
