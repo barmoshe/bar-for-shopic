@@ -1,0 +1,454 @@
+/* =========================================================================
+   BRAND TOKENS — rebuilt in Shopic's live brand.
+
+   Read off shopic.co (getComputedStyle): ink plum #1C0732 background, violet
+   #705CEA primary + #9382FF light, green #10C053 accent, white text, Graphik
+   (→ Inter) body + Moderat-Mono (→ JetBrains Mono) HUD labels. Dark, high-
+   contrast, computer-vision feel: item-level detection overlays, corner
+   brackets, scan lines. Everything downstream reads these vars.
+   ========================================================================= */
+
+.shopic-root {
+  --shopic-bg: #1a0930; /* dark plum page */
+  --shopic-bg-2: #150726; /* deeper plum for banded sections */
+  --shopic-surface: #241041; /* card / panel face */
+  --shopic-surface-2: #2c1550; /* raised panel */
+  --shopic-border: rgba(147, 130, 255, 0.18); /* violet hairline */
+  --shopic-border-strong: rgba(147, 130, 255, 0.42);
+  --shopic-ink: #ffffff; /* primary text */
+  --shopic-ink-soft: rgba(255, 255, 255, 0.66); /* secondary text */
+  --shopic-ink-faint: rgba(255, 255, 255, 0.42);
+  --shopic-accent: #705cea; /* the violet */
+  --shopic-accent-2: #9382ff; /* light violet */
+  --shopic-green: #10c053; /* vision "hit" green */
+  --shopic-accent-ink: #ffffff; /* text on accent */
+  --shopic-radius: 12px;
+  --shopic-pill: 999px;
+  --shopic-maxw: 72rem;
+
+  background:
+    radial-gradient(
+      120% 80% at 80% -10%,
+      rgba(112, 92, 234, 0.22),
+      transparent 60%
+    ),
+    var(--shopic-bg);
+  color: var(--shopic-ink);
+  font-family: var(--shopic-font), ui-sans-serif, system-ui, -apple-system, sans-serif;
+  font-size: 17px;
+  line-height: 1.55;
+  min-block-size: 100svh;
+  -webkit-font-smoothing: antialiased;
+}
+
+.shopic-wrap {
+  width: 100%;
+  max-width: var(--shopic-maxw);
+  margin-inline: auto;
+  padding-inline: clamp(1.25rem, 4vw, 3rem);
+}
+
+.shopic-mono {
+  font-family: var(--shopic-mono), ui-monospace, monospace;
+}
+
+/* --- nav --- */
+.shopic-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-block: 1.25rem;
+}
+.shopic-wordmark {
+  font-weight: 600;
+  font-size: 1.15rem;
+  letter-spacing: -0.01em;
+  color: var(--shopic-ink);
+}
+.shopic-wordmark b {
+  font-weight: 600;
+  color: var(--shopic-accent-2);
+}
+.shopic-wordmark .dot {
+  color: var(--shopic-green);
+}
+
+/* --- buttons --- */
+.shopic-btn,
+.shopic-btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.72rem 1.4rem;
+  border-radius: var(--shopic-pill);
+  font-weight: 600;
+  font-size: 0.98rem;
+  text-decoration: none;
+  border: 1.5px solid transparent;
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease,
+    border-color 0.2s ease;
+}
+.shopic-btn {
+  background: var(--shopic-accent);
+  color: var(--shopic-accent-ink);
+  box-shadow: 0 10px 30px -12px rgba(112, 92, 234, 0.9);
+}
+.shopic-btn:hover {
+  transform: translateY(-2px);
+  background: #7d6bf0;
+  box-shadow: 0 16px 36px -12px rgba(112, 92, 234, 1);
+}
+.shopic-btn-ghost {
+  background: transparent;
+  color: var(--shopic-ink);
+  border-color: var(--shopic-border-strong);
+}
+.shopic-btn-ghost:hover {
+  transform: translateY(-2px);
+  border-color: var(--shopic-accent-2);
+  background: rgba(147, 130, 255, 0.08);
+}
+
+/* --- sections --- */
+.shopic-section {
+  padding-block: clamp(3.25rem, 8vw, 6rem);
+}
+.shopic-band {
+  background: var(--shopic-bg-2);
+  border-block: 1px solid var(--shopic-border);
+}
+.shopic-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--shopic-mono), ui-monospace, monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: var(--shopic-accent-2);
+  margin-bottom: 0.9rem;
+}
+.shopic-eyebrow::before {
+  content: "";
+  inline-size: 0.5rem;
+  block-size: 0.5rem;
+  border-radius: 999px;
+  background: var(--shopic-green);
+  box-shadow: 0 0 0 3px rgba(16, 192, 83, 0.22);
+}
+.shopic-h2 {
+  font-size: clamp(1.7rem, 4vw, 2.6rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  margin-bottom: 1rem;
+}
+.shopic-lead {
+  color: var(--shopic-ink-soft);
+  max-width: 56ch;
+  margin-bottom: 2.25rem;
+}
+
+/* --- hero --- */
+.shopic-hero {
+  display: grid;
+  gap: clamp(1.75rem, 5vw, 3.5rem);
+  align-items: center;
+  padding-block: clamp(2.5rem, 8vw, 5rem) clamp(3rem, 8vw, 5.5rem);
+}
+@media (min-width: 900px) {
+  .shopic-hero {
+    grid-template-columns: 1.02fr 0.98fr;
+  }
+}
+.shopic-hero h1 {
+  font-size: clamp(2.3rem, 5.6vw, 4rem);
+  font-weight: 600;
+  line-height: 1.04;
+  letter-spacing: -0.03em;
+}
+.shopic-hero h1 em {
+  font-style: normal;
+  color: var(--shopic-accent-2);
+}
+.shopic-hero .shopic-lead {
+  margin-top: 1.25rem;
+  font-size: 1.08rem;
+  max-width: 42ch;
+}
+.shopic-cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 2rem;
+}
+
+/* --- focus card grid --- */
+.shopic-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(15.5rem, 1fr));
+}
+.shopic-card {
+  position: relative;
+  background: linear-gradient(
+    180deg,
+    var(--shopic-surface),
+    var(--shopic-surface-2)
+  );
+  border: 1px solid var(--shopic-border);
+  border-radius: var(--shopic-radius);
+  padding: 1.5rem 1.4rem;
+  overflow: hidden;
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease;
+}
+.shopic-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--shopic-border-strong);
+}
+.shopic-card .shopic-tag {
+  font-family: var(--shopic-mono), ui-monospace, monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--shopic-accent-2);
+}
+.shopic-card h3 {
+  font-size: 1.12rem;
+  font-weight: 600;
+  margin: 0.55rem 0 0.5rem;
+  letter-spacing: -0.01em;
+}
+.shopic-card p {
+  color: var(--shopic-ink-soft);
+  font-size: 0.95rem;
+}
+/* corner bracket, echoing the detection HUD */
+.shopic-card::after {
+  content: "";
+  position: absolute;
+  top: 0.9rem;
+  right: 0.9rem;
+  width: 0.85rem;
+  height: 0.85rem;
+  border-top: 2px solid var(--shopic-border-strong);
+  border-right: 2px solid var(--shopic-border-strong);
+  opacity: 0.7;
+}
+
+/* --- proof stat band --- */
+.shopic-stats {
+  display: grid;
+  gap: 1.25rem 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+}
+.shopic-stat b {
+  display: block;
+  font-size: clamp(1.6rem, 4vw, 2.3rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--shopic-ink);
+}
+.shopic-stat b i {
+  font-style: normal;
+  color: var(--shopic-green);
+}
+.shopic-stat span {
+  color: var(--shopic-ink-soft);
+  font-size: 0.92rem;
+}
+
+/* --- work grid (honeybook standard: tiles with live links) --- */
+.shopic-work {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
+}
+.shopic-work a {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1.35rem 1.4rem;
+  background: linear-gradient(
+    180deg,
+    var(--shopic-surface),
+    var(--shopic-surface-2)
+  );
+  border: 1px solid var(--shopic-border);
+  border-radius: var(--shopic-radius);
+  text-decoration: none;
+  color: var(--shopic-ink);
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease;
+}
+.shopic-work a:hover {
+  transform: translateY(-3px);
+  border-color: var(--shopic-border-strong);
+}
+.shopic-work .wk-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+.shopic-work .wk-tag {
+  font-family: var(--shopic-mono), ui-monospace, monospace;
+  font-size: 0.64rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--shopic-accent-2);
+  border: 1px solid var(--shopic-border);
+  border-radius: 999px;
+  padding: 0.18rem 0.6rem;
+}
+.shopic-work h3 {
+  font-size: 1.08rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+.shopic-work p {
+  color: var(--shopic-ink-soft);
+  font-size: 0.92rem;
+}
+.shopic-work .wk-link {
+  margin-top: auto;
+  font-family: var(--shopic-mono), ui-monospace, monospace;
+  font-size: 0.76rem;
+  color: var(--shopic-accent-2);
+}
+.shopic-work .wk-arrow {
+  color: var(--shopic-accent-2);
+  transition: transform 0.2s ease;
+}
+.shopic-work a:hover .wk-arrow {
+  transform: translate(3px, -3px);
+}
+
+/* --- contact close --- */
+.shopic-close {
+  text-align: center;
+}
+.shopic-close .shopic-h2 {
+  max-width: 20ch;
+  margin-inline: auto;
+}
+.shopic-close .shopic-cta-row {
+  justify-content: center;
+}
+
+/* --- footer --- */
+.shopic-foot {
+  border-top: 1px solid var(--shopic-border);
+  padding-block: 2rem;
+  color: var(--shopic-ink-faint);
+  font-size: 0.82rem;
+}
+.shopic-foot .shopic-mono {
+  color: var(--shopic-ink-soft);
+}
+
+/* --- skip link --- */
+.shopic-skip {
+  position: absolute;
+  left: -9999px;
+}
+.shopic-skip:focus {
+  left: 1rem;
+  top: 1rem;
+  z-index: 10;
+  background: var(--shopic-accent);
+  color: #fff;
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+}
+
+/* --- centerpiece detection overlay --- */
+.shopic-vision {
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 30px 60px rgba(20, 6, 40, 0.6));
+}
+.shopic-vision .scan {
+  animation: shopic-scan 3.6s ease-in-out infinite;
+}
+.shopic-vision .box {
+  transform-box: fill-box;
+  transform-origin: center;
+  opacity: 0;
+  animation: shopic-pop 4.2s ease-in-out infinite;
+}
+.shopic-vision .box.b2 {
+  animation-delay: 0.5s;
+}
+.shopic-vision .box.b3 {
+  animation-delay: 1s;
+}
+.shopic-vision .box.b4 {
+  animation-delay: 1.5s;
+}
+.shopic-vision .blip {
+  animation: shopic-blip 2s ease-in-out infinite;
+}
+
+@keyframes shopic-scan {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.9;
+  }
+  50% {
+    transform: translateY(214px);
+    opacity: 0.35;
+  }
+}
+@keyframes shopic-pop {
+  0%,
+  8% {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  16%,
+  82% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  92%,
+  100% {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+}
+@keyframes shopic-blip {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shopic-vision .scan,
+  .shopic-vision .box,
+  .shopic-vision .blip {
+    animation: none;
+  }
+  .shopic-vision .box {
+    opacity: 1;
+  }
+  .shopic-btn:hover,
+  .shopic-btn-ghost:hover,
+  .shopic-card:hover,
+  .shopic-work a:hover {
+    transform: none;
+  }
+}
