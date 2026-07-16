@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import Script from "next/script";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import "@/src/marketing/shopic/marketing-base.css";
 import "@/src/marketing/shopic/shopic.css";
@@ -40,7 +41,13 @@ export default function RootLayout({
       dir="ltr"
       className={`${brandFont.variable} ${monoFont.variable}`}
     >
-      <body>{children}</body>
+      <body>
+    <Script
+      src="https://bar-for-companies.vercel.app/track.js"
+      data-bar-for-id="shopic"
+      strategy="afterInteractive"
+    />
+{children}</body>
     </html>
   );
 }
